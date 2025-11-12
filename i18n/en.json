@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Feniks Lab - Wellness Applications",
+    "description": "Discover Feniks Lab applications for your wellness: meditation, breathwork and more."
+  },
+  "header": {
+    "logo": "Feniks Lab",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "Welcome to Feniks Lab",
+    "subtitle": "Simple, intuitive and privacy-respecting wellness applications",
+    "description": "We create mobile and web applications that help you improve your mental and physical well-being, without compromising your privacy."
+  },
+  "apps": {
+    "title": "Our Applications",
+    "description": "Discover our applications available on the stores",
+    "download": "Download",
+    "appStore": "App Store",
+    "googlePlay": "Google Play",
+    "webApp": "Web Version",
+    "viewScreenshots": "View screenshots",
+    "closeScreenshots": "Close"
+  },
+  "footer": {
+    "contact": "Contact",
+    "email": "contact@fenikslabs.app",
+    "rights": "© 2024 Feniks Lab. All rights reserved."
+  }
+}
+

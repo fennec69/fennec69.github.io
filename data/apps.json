@@ -1,0 +1,32 @@
+{
+  "apps": [
+    {
+      "id": "meditation",
+      "name": {
+        "fr": "Feniks Meditation",
+        "en": "Feniks Meditation"
+      },
+      "description": {
+        "fr": "Découvrez Feniks Meditation, votre compagnon idéal pour cultiver la sérénité et la pleine conscience au quotidien. Une application de méditation simple, intuitive et respectueuse de votre vie privée.",
+        "en": "Discover Feniks Meditation, your ideal companion for cultivating serenity and mindfulness in your daily life. A simple, intuitive meditation app that respects your privacy."
+      },
+      "shortDescription": {
+        "fr": "Méditez en toute sérénité avec Feniks Meditation. Timer, statistiques et mode zen.",
+        "en": "Meditate peacefully with Feniks Meditation. Timer, stats & zen mode included."
+      },
+      "logo": "assets/logos/meditation.png",
+      "screenshots": [
+        "assets/screenshots/meditation/1.png",
+        "assets/screenshots/meditation/2.png",
+        "assets/screenshots/meditation/3.png"
+      ],
+      "links": {
+        "appStore": "",
+        "googlePlay": "",
+        "web": ""
+      },
+      "published": true
+    }
+  ]
+}
+
