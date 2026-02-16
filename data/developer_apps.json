@@ -3,7 +3,7 @@
     "id": "com.fenikslabs.meditation",
     "name": "Meditation",
     "description": "Suivez vos sessions de méditation",
-    "iconUrl": "https://fennec69.github.io/icons/meditation.png",
+    "iconUrl": "https://fennec69.github.io/assets/logos/meditation.png",
     "playStoreId": "com.fenikslabs.meditation",
     "appStoreId": "1234567890"
   },
@@ -11,7 +11,7 @@
     "id": "com.fenikslabs.breathwork",
     "name": "Breathwork",
     "description": "Exercices de respiration guidés",
-    "iconUrl": "https://fennec69.github.io/icons//breathwork.png",
+    "iconUrl": "https://fennec69.github.io//assets/logos/breathwork.png",
     "playStoreId": "com.fenikslabs.breathwork",
     "appStoreId": "0987654321"
   }
