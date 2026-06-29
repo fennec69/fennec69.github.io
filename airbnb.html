@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide de gestion — Airbnb La Garenne-Colombes</title>
+<style>
+  :root {
+    --primary: #FF5A5F;
+    --primary-dark: #E04146;
+    --accent: #00A699;
+    --warning: #FFB400;
+    --danger: #C13515;
+    --bg: #F7F7F7;
+    --card: #FFFFFF;
+    --text: #222222;
+    --text-light: #717171;
+    --border: #EBEBEB;
+    --code-bg: #FFF4E5;
+    --code-border: #FFB400;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static !important; height: auto !important; }
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    padding: 24px 20px;
+  }
+  .sidebar h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    margin: 0 0 12px;
+  }
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+  .sidebar nav li {
+    margin: 6px 0;
+  }
+  .sidebar nav a {
+    display: block;
+    padding: 6px 10px;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .sidebar nav a:hover {
+    background: var(--bg);
+    color: var(--primary);
+  }
+
+  /* Main */
+  main {
+    padding: 40px 48px;
+    max-width: 900px;
+  }
+  @media (max-width: 600px) {
+    main { padding: 24px 16px; }
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 32px 28px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+  }
+  .hero h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+  }
+  .hero p {
+    margin: 0;
+    opacity: 0.95;
+  }
+
+  /* Sections */
+  section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    scroll-margin-top: 20px;
+  }
+  section h2 {
+    margin: 0 0 16px;
+    font-size: 22px;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 8px;
+    display: inline-block;
+  }
+  section h3 {
+    margin: 24px 0 12px;
+    font-size: 17px;
+    color: var(--primary-dark);
+  }
+  section p, section li {
+    font-size: 15px;
+  }
+
+  /* Code & key info */
+  .code-box {
+    display: inline-block;
+    background: var(--code-bg);
+    border: 1px dashed var(--code-border);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+    font-weight: 600;
+    color: var(--danger);
+  }
+
+  /* Contact cards */
+  .contacts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .contact-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    background: #FAFAFA;
+  }
+  .contact-card .role {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+  }
+  .contact-card .name {
+    font-weight: 600;
+    font-size: 17px;
+    margin: 4px 0;
+  }
+  .contact-card .phone {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+    color: var(--primary-dark);
+    font-weight: 600;
+  }
+  .contact-card .note {
+    color: var(--text-light);
+    font-size: 13px;
+    margin-top: 6px;
+  }
+
+  /* Alert boxes */
+  .alert {
+    border-left: 4px solid;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 16px 0;
+    background: #FFF;
+  }
+  .alert-warning {
+    border-color: var(--warning);
+    background: #FFF8E5;
+  }
+  .alert-danger {
+    border-color: var(--danger);
+    background: #FFEFEC;
+  }
+  .alert-info {
+    border-color: var(--accent);
+    background: #E5F7F5;
+  }
+  .alert-success {
+    border-color: #2E7D32;
+    background: #E8F5E9;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  th {
+    background: #FAFAFA;
+    font-weight: 600;
+  }
+
+  /* Steps */
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+  }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 14px;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* Templates */
+  details {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    background: #FAFAFA;
+  }
+  details summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary-dark);
+  }
+  details[open] summary {
+    margin-bottom: 8px;
+  }
+  .template {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .copy-btn {
+    margin-top: 8px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .copy-btn:hover { background: #008A7E; }
+  .copy-btn.copied { background: #2E7D32; }
+
+  /* FAQ */
+  .faq dt {
+    font-weight: 600;
+    margin-top: 14px;
+    color: var(--primary-dark);
+  }
+  .faq dd {
+    margin: 4px 0 0 0;
+    color: var(--text);
+  }
+
+  /* Print */
+  @media print {
+    .sidebar { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    section { page-break-inside: avoid; box-shadow: none; }
+    main { padding: 0; }
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--accent);
+    color: white;
+  }
+  .badge-warn { background: var(--warning); color: #5C4400; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Navigation</h2>
+    <nav>
+      <ul>
+        <li><a href="#urgences">🚨 Contacts d'urgence</a></li>
+        <li><a href="#logement">🏠 Le logement</a></li>
+        <li><a href="#acces">🔑 Accès & codes</a></li>
+        <li><a href="#parking">🚗 Parking</a></li>
+        <li><a href="#wifi">📶 Wifi & équipements</a></li>
+        <li><a href="#workflow">📅 Workflow check-in / check-out</a></li>
+        <li><a href="#menage">🧹 Société de ménage</a></li>
+        <li><a href="#templates">✉️ Messages manuels (rares)</a></li>
+        <li><a href="#faq">❓ FAQ voyageurs</a></li>
+        <li><a href="#problemes">⚠️ Problèmes courants</a></li>
+        <li><a href="#conseils">📍 Recos locales</a></li>
+        <li><a href="#regles">📋 Règles à suivre</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main>
+
+    <div class="hero">
+      <h1>👋 Guide de gestion — Airbnb La Garenne-Colombes</h1>
+      <p>Tout ce qu'il faut savoir pour gérer l'appartement pendant l'absence de Farid (10 jours). Garde cette page ouverte pendant toute la durée.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <section id="urgences">
+      <h2>🚨 Contacts d'urgence</h2>
+      <div class="contacts">
+        <div class="contact-card">
+          <div class="role">Hôte / Propriétaire</div>
+          <div class="name">Farid</div>
+          <div class="phone">+33 6 50 85 69 24</div>
+          <div class="note">Joignable même en déplacement. Appelle-moi en cas de pépin sérieux.</div>
+        </div>
+        <div class="contact-card">
+          <div class="role">Sur place — Ménage / clés</div>
+          <div class="name">Nathanaël</div>
+          <div class="phone">+33 6 41 17 55 71</div>
+          <div class="note">Présent sur place pour le ménage entre chaque séjour et pour remettre la boîte à clés si besoin.</div>
+        </div>
+        <div class="contact-card">
+          <div class="role">Contact du centre de méditation</div>
+          <div class="name">Le Village du lac</div>
+          <div class="note">Route de Saint Agrève<br>07320 Devesset</div>
+          <div class="phone">+33 7 64 23 39 38</div>
+        </div>
+        <div class="contact-card">
+          <div class="role">Support Airbnb (24/7)</div>
+          <div class="name">Service hôte</div>
+          <div class="phone">+33 1 84 88 40 00</div>
+          <div class="note">Pour tout litige, paiement, double réservation, etc.</div>
+        </div>
+        <div class="contact-card">
+          <div class="role">Urgences</div>
+          <div class="name">Police / SAMU / Pompiers</div>
+          <div class="phone">17 / 15 / 18</div>
+          <div class="note">Numéro européen unique : <strong>112</strong></div>
+        </div>
+      </div>
+      <div class="alert alert-info" style="margin-top:16px;">
+        <strong>💡 Astuce :</strong> avant l'arrivée d'un voyageur, vérifie déjà avec Nathanaël que l'appartement a bien été préparé. C'est lui qui gère le ménage et la remise des clés dans la boîte.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="logement">
+      <h2>🏠 Le logement</h2>
+      <table>
+        <tr><th>Adresse</th><td>80 Rue Sartoris, 92250 La Garenne-Colombes</td></tr>
+        <tr><th>Bâtiment</th><td>Bâtiment <strong>B</strong> (à gauche après le portail)</td></tr>
+        <tr><th>Étage</th><td>1<sup>er</sup> étage (ascenseur ou escaliers)</td></tr>
+        <tr><th>N° d'appartement</th><td><strong>213</strong> (numéro visible en haut à gauche de la porte)</td></tr>
+        <tr><th>Capacité</th><td>4 voyageurs max — 1 chambre (lit queen 140×200) + 1 canapé-lit dans le salon</td></tr>
+        <tr><th>Animaux</th><td>Non autorisés</td></tr>
+        <tr><th>Fumeurs</th><td>Non</td></tr>
+        <tr><th>Soirées / événements</th><td>Interdits</td></tr>
+      </table>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="acces">
+      <h2>🔑 Accès & codes</h2>
+      <ol class="steps">
+        <li><strong>Portail gris de la résidence</strong> — Code : <span class="code-box">4160</span></li>
+        <li>Une fois passé le portail, dirige-toi vers l'entrée du <strong>bâtiment B</strong> (sur la gauche).</li>
+        <li><strong>Porte du bâtiment B</strong> — Code : <span class="code-box">#9282</span> (avec le dièse devant)</li>
+        <li>Monter au <strong>1<sup>er</sup> étage</strong> (ascenseur ou escaliers).</li>
+        <li>L'appartement est le <strong>n°213</strong> (numéro en haut à gauche de la porte).</li>
+        <li><strong>Boîte à clés</strong> accrochée sur le côté de la porte — Code : <span class="code-box">1406</span></li>
+      </ol>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ À savoir sur la porte :</strong>
+        <ul style="margin:6px 0 0;">
+          <li>Bien enfoncer la clé <strong>à fond</strong> dans la serrure avant de tourner. Si la porte bloque, tirer légèrement vers soi avant de tourner.</li>
+          <li><strong>La porte ne s'ouvre PAS sans clé depuis l'extérieur.</strong> Toujours prendre la clé avec soi en sortant.</li>
+          <li>La porte de l'escalier ferme bruyamment — la retenir pour ne pas déranger les voisins.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="parking">
+      <h2>🚗 Parking (sous-sol, inclus dans le prix)</h2>
+      <table>
+        <tr><th>Place</th><td><strong>3001</strong> au niveau <strong>−3</strong></td></tr>
+        <tr><th>Position</th><td>Juste en face quand on descend en voiture (il y a un scooter au fond, la place est très longue, il ne gêne pas)</td></tr>
+        <tr><th>Télécommande</th><td>Dans le <strong>tiroir du bureau</strong> de l'appartement</td></tr>
+        <tr><th>Badge jaune</th><td>Avec la clé — <strong>obligatoire pour l'ascenseur</strong> du parking (sans, impossible de monter/descendre)</td></tr>
+      </table>
+
+      <div class="alert alert-info">
+        <strong>💡 Conseil à donner aux voyageurs :</strong> descendre d'abord <strong>à pied (ascenseur)</strong> repérer la place avant d'y aller en voiture. Au parking −3, marcher tout le temps à gauche depuis l'arrivée voiture — la place est juste en face.
+      </div>
+
+      <h3>Local à poubelles</h3>
+      <p>Au niveau <strong>−1</strong>, longer le mur à gauche en sortant de l'ascenseur, c'est la première porte à gauche. Mais en général la société de ménage s'en occupe — les voyageurs peuvent laisser les poubelles dans l'appartement.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="wifi">
+      <h2>📶 Wifi & équipements</h2>
+      <table>
+        <tr><th>Wifi (SSID)</th><td><span class="code-box">Freebox-1CA0A9</span></td></tr>
+        <tr><th>Mot de passe</th><td><span class="code-box">fennec69100</span></td></tr>
+      </table>
+
+      <h3>🌡️ Chauffage</h3>
+      <p>Le chauffage est <strong>contrôlé à distance</strong> (raisons écologiques et économiques) et <strong>verrouillé par la copropriété</strong>. Limites :</p>
+      <ul>
+        <li>Salon : max <strong>22°C</strong></li>
+        <li>Chambre : max <strong>20°C</strong></li>
+      </ul>
+      <p>Si un voyageur dit qu'il a froid : tu peux essayer d'augmenter, mais on ne peut pas dépasser ces limites. Suggère de chercher des couettes supplémentaires sous la méridienne du canapé.</p>
+      <div class="alert alert-warning">
+        <strong>Pas de climatisation</strong> dans le logement (conforme à l'annonce). Les thermostats ne servent <em>que</em> pour le chauffage.
+      </div>
+
+      <h3>📺 TV / Netflix</h3>
+      <p>TV avec Netflix dans le salon. Compte connecté par défaut.</p>
+
+      <h3>🛏️ Draps & serviettes</h3>
+      <p><strong>Inclus dans le prix.</strong> La société de ménage change tout entre chaque séjour. Les voyageurs peuvent laisser les draps utilisés sur le lit et les serviettes sur le rebord de la douche.</p>
+      <p>Les draps et oreillers pour le <strong>canapé-lit</strong> se trouvent dans le <strong>placard de l'entrée</strong>.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="workflow">
+      <h2>📅 Workflow check-in / check-out</h2>
+
+      <h3>🌅 Le matin du jour d'arrivée</h3>
+      <div class="alert alert-success">
+        <strong>✅ Bonne nouvelle :</strong> les messages d'instructions d'arrivée sont <strong>envoyés automatiquement</strong> par Airbnb. Tu n'as pas à les rédiger.
+      </div>
+      <ol class="steps">
+        <li>Vérifier avec Nathanaël que le ménage est OK ou planifié.</li>
+        <li>Vérifier que la boîte à clés contient bien la clé (Nathanaël remet la boîte après son passage).</li>
+      </ol>
+
+      <h3>🕒 Horaires</h3>
+      <ul>
+        <li><strong>Check-in : à partir de 15h00</strong> — avant, on prépare l'appartement.</li>
+        <li><strong>Check-out : au plus tard 11h00</strong> — pour laisser le temps au ménage.</li>
+        <li>Au-delà de 15h, le voyageur peut arriver à l'heure qu'il veut (entrée autonome).</li>
+      </ul>
+
+      <div class="alert alert-info">
+        <strong>Bagages avant 15h ?</strong> Réponse standard : on peut accepter de poser les bagages à partir de 11h-12h <em>seulement</em> si on a vérifié avec le voyageur précédent et avec Nathanaël qu'il y a une fenêtre. Sinon, refuser poliment.
+      </div>
+
+      <h3>🌆 La veille du check-out</h3>
+      <div class="alert alert-success">
+        <strong>✅ Le message de rappel de départ est envoyé automatiquement</strong> par Airbnb.
+      </div>
+      <ol class="steps">
+        <li>S'assurer que Nathanaël est planifié pour passer le lendemain matin.</li>
+      </ol>
+
+      <h3>Avant l'arrivée du voyageur suivant</h3>
+      <ul>
+        <li>Vaisselle faite ?</li>
+        <li>Pas d'aliments laissés ?</li>
+        <li>Télécommande du garage remise dans le <strong>tiroir du bureau</strong> ?</li>
+        <li>Clé bien remise dans la boîte à clés ?</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="menage">
+      <h2>🧹 Société de ménage / Nathanaël</h2>
+      <ul>
+        <li><strong>Nathanaël passe entre chaque séjour</strong> pour faire le ménage complet et changer draps/serviettes.</li>
+        <li>Il lui faut <strong>environ 2h</strong> pour le ménage + changement des draps.</li>
+        <li>C'est lui qui <strong>remet la boîte à clés</strong> en place après son passage.</li>
+        <li>Si une boîte à clés a disparu ou n'est pas remise → appeler Nathanaël en priorité.</li>
+        <li>Si retard de ménage : prévenir le voyageur ("la société de ménage a un peu de retard mais l'appartement sera prêt d'ici 30 min maximum 😊").</li>
+      </ul>
+
+      <h3>🛏️ Ménage en milieu de séjour (long séjour)</h3>
+      <p>Pas inclus de base, mais si un voyageur le demande pour un séjour long → vérifier les dispos de Nathanaël et organiser (changement draps + serviettes + petit ménage).</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="templates">
+      <h2>✉️ Messages à envoyer manuellement</h2>
+      <div class="alert alert-success">
+        <strong>✅ Bonne nouvelle :</strong> les messages de <strong>confirmation</strong>, d'<strong>instructions d'arrivée</strong> et de <strong>rappel de départ</strong> sont envoyés <strong>automatiquement</strong> par Airbnb. Tu n'as rien à rédiger pour le cycle normal d'un séjour.
+      </div>
+      <p>Il ne te reste donc à gérer manuellement que les réponses aux questions ponctuelles des voyageurs (FAQ ci-dessous) et les rares cas où ils demandent une info précise. Voici les seuls templates utiles à garder sous la main :</p>
+
+      <details open>
+        <summary>Wifi (si un voyageur demande)</summary>
+        <div class="template" id="t4">SSID : Freebox-1CA0A9
+Mot de passe : fennec69100</div>
+        <button class="copy-btn" onclick="copyToClipboard('t4', this)">📋 Copier</button>
+      </details>
+
+      <details>
+        <summary>Retard de ménage</summary>
+        <div class="template" id="t5">Bonjour ! La société de ménage a un peu de retard mais l'appartement sera prêt d'ici 30 min maximum 😊</div>
+        <button class="copy-btn" onclick="copyToClipboard('t5', this)">📋 Copier</button>
+      </details>
+
+      <details>
+        <summary>Refus check-in avant 15h</summary>
+        <div class="template" id="t6">Bonjour ! Vous pouvez déposer vos affaires dans un coin de l'appartement à partir de 11h mais il faudra remettre les clés car la société de ménage doit préparer l'appartement pour vous 🙂
+Bonne journée !</div>
+        <button class="copy-btn" onclick="copyToClipboard('t6', this)">📋 Copier</button>
+      </details>
+
+      <details>
+        <summary>Refus paiement en espèces</summary>
+        <div class="template" id="t7">Pour des questions d'assurance je préfère passer par Airbnb 😊 Vous pouvez prolonger votre séjour directement via l'application.</div>
+        <button class="copy-btn" onclick="copyToClipboard('t7', this)">📋 Copier</button>
+      </details>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="faq">
+      <h2>❓ FAQ voyageurs — questions qui reviennent</h2>
+      <dl class="faq">
+        <dt>« Y a-t-il un ascenseur ? »</dt>
+        <dd>Oui, l'appartement est au 1<sup>er</sup> étage et il y a un ascenseur.</dd>
+
+        <dt>« Quel supermarché à proximité ? »</dt>
+        <dd>Un <strong>Monoprix</strong> juste à côté de l'appartement (à pied).</dd>
+
+        <dt>« Les draps et serviettes sont-ils fournis ? »</dt>
+        <dd>Oui, tout est inclus. La société de ménage change tout entre chaque séjour. Les draps et oreillers du canapé-lit sont dans le placard de l'entrée.</dd>
+
+        <dt>« Le parking est-il inclus ? »</dt>
+        <dd>Oui, place de parking en sous-sol incluse dans le prix (place 3001, niveau −3). Voir la section Parking.</dd>
+
+        <dt>« Comment aller à Paris / à La Défense ? »</dt>
+        <dd>
+          <ul style="margin:4px 0;">
+            <li><strong>Tram T2</strong> à 5 min à pied → La Défense en 10 min, puis RER A ou métro 1.</li>
+            <li><strong>Ligne L</strong> à la gare de La Garenne-Colombes (7 min à pied) → Paris Saint-Lazare en 15-20 min.</li>
+            <li><strong>Bus 73</strong> à 3 min → La Défense / Champs-Élysées / Concorde / Musée d'Orsay.</li>
+            <li><strong>Bus N24 (nuit)</strong> depuis Châtelet, Concorde ou Champs-Élysées.</li>
+          </ul>
+        </dd>
+
+        <dt>« Combien de temps pour aller à la Défense Arena ? »</dt>
+        <dd>À pied, environ 20-25 min. Sinon Tram T2 = 10 min.</dd>
+
+        <dt>« Peut-on monter le chauffage davantage ? »</dt>
+        <dd>Non, plafond fixé par la copro (22°C salon, 20°C chambre). Suggérer des couettes supplémentaires (sous la méridienne du canapé).</dd>
+
+        <dt>« Y a-t-il la clim ? »</dt>
+        <dd>Non. Ce n'est pas indiqué dans l'annonce. Conseiller des ventilateurs portatifs (présents dans le logement).</dd>
+
+        <dt>« Peut-on faire un check-in plus tôt / check-out plus tard ? »</dt>
+        <dd>À vérifier avec le voyageur précédent/suivant et avec Nathanaël. Si la fenêtre le permet, OK pour 12h. Sinon, refuser poliment.</dd>
+
+        <dt>« Peut-on payer une nuit supplémentaire en espèces ? »</dt>
+        <dd><strong>Non, jamais.</strong> Tout doit passer par Airbnb pour des raisons d'assurance. Le voyageur doit rallonger la résa via l'app.</dd>
+
+        <dt>« Que faire des poubelles ? »</dt>
+        <dd>Le voyageur peut les laisser sur place, la société de ménage s'en occupe. (Optionnel : local à poubelles au −1, première porte à gauche en longeant le mur.)</dd>
+
+        <dt>« Petit déjeuner / café fourni ? »</dt>
+        <dd>Pas de petit déj fourni. Machine à café présente. On fournit le nécessaire pour les premiers jours (papier toilette, savon…) ; ensuite le voyageur s'auto-gère comme à la maison.</dd>
+
+        <dt>« Recommandations restaurants ? »</dt>
+        <dd>Pas testé énormément, mais : <strong>Les Jardins de Voltaire</strong> (très bon) et <strong>La Lune d'Or</strong> (coréen, testé une fois et très bon).</dd>
+      </dl>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="problemes">
+      <h2>⚠️ Problèmes courants & que faire</h2>
+
+      <h3>🔴 Voyageur ne trouve pas la boîte à clés</h3>
+      <p>Elle est <strong>sur le côté de la porte</strong> (pas en évidence à l'extérieur). Si elle a disparu : appeler Nathanaël en priorité — c'est probablement lui qui ne l'a pas encore remise après son passage.</p>
+
+      <h3>🔴 Voyageur arrive avant 15h</h3>
+      <p>Réponses standards :</p>
+      <ul>
+        <li><em>Bagages seulement à partir de 11h-12h</em> : « Vous pouvez poser vos affaires à côté du bureau (pour ne pas gêner le ménage), mais il faudra remettre les clés dans la boîte pour que la société de ménage puisse préparer l'appartement. »</li>
+        <li><em>Entrée définitive avant 15h</em> : refuser car le ménage doit pouvoir travailler.</li>
+      </ul>
+
+      <h3>🔴 Voyageur dit que le ménage n'est pas top</h3>
+      <p>S'excuser, prendre le retour au sérieux, signaler à Nathanaël pour la fois suivante. Si c'est sévère en cours de séjour, voir si on peut envoyer Nathanaël repasser.</p>
+
+      <h3>🔴 Plaque de cuisson qui « ne marche pas »</h3>
+      <p>Dans la grande majorité des cas, c'est la <strong>sécurité enfant qui est activée</strong>. Demander au voyageur de vérifier le verrouillage avant tout.</p>
+
+      <h3>🔴 Voyageur veut payer en cash / en dehors d'Airbnb</h3>
+      <p><strong>Toujours refuser.</strong> Réponse : « Pour des questions d'assurance, je préfère passer par Airbnb. » Lui demander de prolonger sa résa via l'app.</p>
+
+      <h3>🔴 Objet perdu signalé après le départ</h3>
+      <p>Demander à Nathanaël s'il a vu quelque chose lors du ménage. Si rien trouvé → s'excuser auprès du voyageur, on ne peut pas faire mieux.</p>
+
+      <h3>🔴 Évaluation injuste / commentaire faux</h3>
+      <p>Possibilité de contester auprès du support Airbnb (+33 1 84 88 40 00). Garder une trace des échanges qui prouvent la bonne foi.</p>
+
+      <h3>🔴 Panne / urgence technique (eau, électricité, fuite…)</h3>
+      <ol>
+        <li>Appeler Farid immédiatement (+33 6 50 85 69 24).</li>
+        <li>Si injoignable : appeler le support Airbnb.</li>
+        <li>En cas de risque (incendie, gaz, eau qui inonde) : 18 ou 112 d'abord, puis Farid.</li>
+      </ol>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="conseils">
+      <h2>📍 Recos locales (à donner aux voyageurs)</h2>
+
+      <h3>🚇 Transports</h3>
+      <ul>
+        <li><strong>Tram T2</strong> (5 min à pied) → La Défense en 10 min</li>
+        <li><strong>Ligne L</strong> — Gare de La Garenne-Colombes (7 min à pied) → Saint-Lazare 15-20 min</li>
+        <li><strong>Bus 73</strong> (3 min à pied) → La Défense, Champs-Élysées, Concorde, Musée d'Orsay</li>
+        <li><strong>RER A</strong> via La Défense → Châtelet, Gare de Lyon (30 min total)</li>
+        <li><strong>Bus N24 (nuit)</strong> retour depuis Paris centre</li>
+      </ul>
+
+      <h3>🛒 Commerces & supermarchés</h3>
+      <ul>
+        <li><strong>Monoprix</strong> juste à côté</li>
+        <li>Boulangeries, pharmacies, restos à 5 min à pied</li>
+      </ul>
+
+      <h3>🌳 Espaces verts</h3>
+      <ul>
+        <li>Parc des Bruyères</li>
+        <li>Parc Robinson</li>
+      </ul>
+
+      <h3>🍽️ Restos locaux testés</h3>
+      <ul>
+        <li><strong>Les Jardins de Voltaire</strong></li>
+        <li><strong>La Lune d'Or</strong> (coréen)</li>
+      </ul>
+
+      <h3>🗼 Itinéraires touristiques classiques</h3>
+      <ul>
+        <li><strong>Arc de Triomphe</strong> : Tram T2 → RER A jusqu'à Charles de Gaulle-Étoile</li>
+        <li><strong>Notre-Dame</strong> : RER A jusqu'à Châtelet, puis à pied</li>
+        <li><strong>Tour Eiffel / Pont de l'Alma</strong> : Ligne L jusqu'à Saint-Lazare, puis métro 9 jusqu'à Alma</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="regles">
+      <h2>📋 Règles importantes à respecter</h2>
+      <div class="alert alert-danger">
+        <strong>🚫 À NE JAMAIS FAIRE :</strong>
+        <ul style="margin:6px 0 0;">
+          <li>Ne <strong>jamais accepter d'espèces</strong> en dehors d'Airbnb (assurance, fiscalité).</li>
+          <li>Ne <strong>jamais donner de check-in avant 15h</strong> sans avoir vérifié avec le ménage.</li>
+          <li>Ne <strong>pas laisser entrer plus de 4 personnes</strong> (capacité max).</li>
+          <li>Ne <strong>pas autoriser de fête / événement / animaux / fumeurs</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>✅ À TOUJOURS FAIRE :</strong>
+        <ul style="margin:6px 0 0;">
+          <li>Répondre dans les <strong>24h</strong> (idéalement bien plus vite — c'est ce qui fait la note Communication 5/5).</li>
+          <li>Toujours envoyer les <strong>instructions d'arrivée le matin même</strong> du check-in.</li>
+          <li>Toujours <strong>signer "Farid"</strong> dans les messages pour rester cohérent avec l'historique de l'annonce.</li>
+          <li>En cas de doute → <strong>appeler Farid</strong> avant de répondre.</li>
+        </ul>
+      </div>
+
+      <h3>💬 Style de communication</h3>
+      <p>Le ton attendu par les voyageurs (basé sur les anciens échanges) :</p>
+      <ul>
+        <li>Cordial, chaleureux, ponctué de 😊 ☺️</li>
+        <li>Toujours commencer par « Bonjour {prénom} »</li>
+        <li>Finir par « Bonne journée / bon séjour ! » + signature « Farid »</li>
+      </ul>
+    </section>
+
+    <p style="text-align:center; color:var(--text-light); font-size:13px; margin-top:32px;">
+      Page générée pour gestion d'absence de 10 jours. En cas de doute, appelle Farid au +33 6 50 85 69 24.
+    </p>
+
+  </main>
+</div>
+
+<script>
+  function copyToClipboard(id, btn) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.innerText;
+      btn.innerText = '✓ Copié !';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerText = original;
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
